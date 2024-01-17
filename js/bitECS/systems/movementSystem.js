@@ -9,6 +9,7 @@ export const createMovementSystem = function (p5) {
     const acceleration = new AccelerationProxy(null);
     const movementQuery = defineQuery([Position, Velocity, Acceleration]);
 
+
     return defineSystem(world => {
         const ents = movementQuery(world);
         const { time: { delta } } = world;

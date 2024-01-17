@@ -3,6 +3,7 @@ import p5 from "p5";
 import * as bitECS from "./js/bitECS/bitECS.js";
 import { PositionProxy } from "./js/bitECS/components/Position.js"
 import { VelocityProxy } from "./js/bitECS/components/Velocity.js";
+import { MassProxy } from "./js/bitECS/components/Mass.js";
 
 let canvasWidth = 1004;
 let canvasHeight = 620;
@@ -20,24 +21,19 @@ export default function init() {
             p5.world = bitECS.createNewWorld(this);
             const position = new PositionProxy(null);
             const velocity = new VelocityProxy(null);
+            const mass = new MassProxy(null);
 
-            for (let i = 0; i < 256; i++) {
+            for (let i = 0; i < 2**9; i++) {
                 let newEid = p5.world.createEntity();
                 position.eid = newEid;
                 velocity.eid = newEid;
+                mass.eid = newEid;
 
                 position.x = Math.random() * p5.windowWidth;
                 position.y = Math.random() * p5.windowHeight;
                 velocity.x = (Math.random() * 2 - 1) * 100;
                 velocity.y = (Math.random() * 2 - 1) * 100;
-
-                if (newEid == 1) {
-                    let newEnt = p5.world.entities.get(newEid);
-                    newEnt.fill = 'red',
-                        newEnt.a = 3;
-                    newEnt.position.x = p5.windowWidth / 2;
-                    newEnt.position.y = p5.windowHeight / 2
-                }
+                mass.set(Math.random())
             }
         }
 
